@@ -23,6 +23,9 @@ const Detail = () => {
     return <div>{error}</div>;
   }
   console.log(todos);
+  const detailTodo = todos.find((todo) => todo.id === parseInt(param.id));
+  console.log('detailTodo', detailTodo, Boolean(detailTodo));
+
   return (
     <Container>
       <Icon onClick={() => navigate('/')}>
@@ -30,8 +33,8 @@ const Detail = () => {
       </Icon>
       <ContentsBox>
         <Form>
-          <Title>제목</Title>
-          <Text placeholder="내용" />
+          <Title>{detailTodo ? detailTodo.title : '제목'}</Title>
+          <Text>{detailTodo ? detailTodo.content : '내용'}</Text>
           <div>
             <Btn>수정</Btn>
           </div>
@@ -73,7 +76,7 @@ const Title = styled.h3`
   color: #595c6c;
   margin-top: 3rem;
 `;
-const Text = styled.textarea`
+const Text = styled.div`
   font-size: 1.2rem;
   width: 700px;
   height: 300px;
@@ -81,7 +84,6 @@ const Text = styled.textarea`
   padding: 1rem;
   box-sizing: border-box;
   outline: none;
-  resize: none;
 `;
 const Btn = styled.button`
   position: absolute;
