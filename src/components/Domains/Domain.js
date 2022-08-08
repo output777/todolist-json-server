@@ -11,7 +11,7 @@ const Domains = () => {
         <Content onClick={() => navigate('/record')}>
           <Text>할 일 기록하기</Text>
         </Content>
-        <Content onClick={() => navigate('/list')}>
+        <Content onClick={() => navigate('/todo')}>
           <Text>TODO LIST</Text>
         </Content>
       </ContentsBox>
@@ -26,6 +26,7 @@ const HeaderTitle = styled.h1`
   color: #6aaecd;
   text-align: center;
   font-size: 1.8rem;
+  cursor: pointer;
 `;
 
 const ContentsBox = styled.div`

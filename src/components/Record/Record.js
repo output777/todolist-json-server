@@ -1,25 +1,76 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {AiFillHome} from 'react-icons/ai';
 import {useNavigate} from 'react-router-dom';
-
-/* eslint-disabled */
+import axios from 'axios';
 
 const Record = () => {
   const navigate = useNavigate();
+
+  const [todo, setTodo] = useState({
+    user: '',
+    title: '',
+    content: '',
+  });
+
+  const onSubmitHandler = async () => {
+    await axios.post('http://localhost:3001/todos', todo);
+    setTodo({
+      user: '',
+      title: '',
+      content: '',
+    });
+    navigate('/todo');
+  };
+
   return (
     <Container>
       <Icon onClick={() => navigate('/')}>
         <AiFillHome style={{width: '100%', height: '100%'}} />
       </Icon>
       <ContentsBox>
-        <Form>
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmitHandler();
+          }}
+        >
           <Title>작성자</Title>
-          <Text placeholder="작성자의 이름을 입력해주세요. (5자 이내)" />
+          <Text
+            placeholder="작성자의 이름을 입력해주세요. (5자 이내)"
+            value={todo.user}
+            onChange={(e) => {
+              const {value} = e.target;
+              setTodo({
+                ...todo,
+                user: value,
+              });
+            }}
+          />
           <Title>제목</Title>
-          <Text placeholder="제목을 입력해주세요. (50자 이내)" />
+          <Text
+            placeholder="제목을 입력해주세요. (50자 이내)"
+            value={todo.title}
+            onChange={(e) => {
+              const {value} = e.target;
+              setTodo({
+                ...todo,
+                title: value,
+              });
+            }}
+          />
           <Title>내용</Title>
-          <ContentText placeholder="내용을 입력해주세요. (200자 이내)" />
+          <ContentText
+            placeholder="내용을 입력해주세요. (200자 이내)"
+            value={todo.content}
+            onChange={(e) => {
+              const {value} = e.target;
+              setTodo({
+                ...todo,
+                content: value,
+              });
+            }}
+          />
           <div>
             <Btn>+</Btn>
           </div>
@@ -43,6 +94,7 @@ const Icon = styled.div`
   width: 32px;
   height: 32px;
   margin: 1rem 0 2rem 0;
+  cursor: pointer;
 `;
 
 const ContentsBox = styled.div`

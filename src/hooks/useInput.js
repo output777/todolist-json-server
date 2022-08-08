@@ -1,7 +1,13 @@
-import React from 'react';
+import {useState} from 'react';
 
 const useInput = () => {
-  return <div>useInput</div>;
+  const [value, setValue] = useState('');
+
+  const handleer = (e) => {
+    const {value} = e.target;
+    setValue(value);
+  };
+  return [value, handleer];
 };
 
 export default useInput;

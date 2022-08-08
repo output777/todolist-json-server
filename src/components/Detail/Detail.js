@@ -1,11 +1,31 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import styled from 'styled-components';
+import {useNavigate, useParams} from 'react-router-dom';
 import {AiFillHome} from 'react-icons/ai';
+import {__getTodos} from '../../redux/modules/todosSlice';
+import {useSelector, useDispatch} from 'react-redux';
 
 const Detail = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {isLoading, error, todos} = useSelector((state) => state.todos);
+  const param = useParams();
+
+  useEffect(() => {
+    dispatch(__getTodos());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+  console.log(todos);
   return (
     <Container>
-      <Icon>
+      <Icon onClick={() => navigate('/')}>
         <AiFillHome style={{width: '100%', height: '100%'}} />
       </Icon>
       <ContentsBox>
@@ -34,6 +54,7 @@ const Icon = styled.div`
   width: 32px;
   height: 32px;
   margin: 1rem 0 2rem 0;
+  cursor: pointer;
 `;
 
 const ContentsBox = styled.div`
