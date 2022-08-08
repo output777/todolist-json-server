@@ -1,7 +1,15 @@
 import './App.css';
+import Domains from './components/Domains/Domain';
+import Layout from './components/Layout/Layout';
 
 function App() {
-  return <div></div>;
+  return (
+    <div>
+      <Layout>
+        <Domains />
+      </Layout>
+    </div>
+  );
 }
 
 export default App;

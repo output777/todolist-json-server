@@ -1,30 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
 import {AiFillHome} from 'react-icons/ai';
+import {useNavigate} from 'react-router-dom';
 
 /* eslint-disabled */
 
 const Record = () => {
-	return (
-		<Container>
-			<Icon>
-				<AiFillHome style={{ width: '100%', height: '100%' }} />
-			</Icon>
-			<ContentsBox>
+  const navigate = useNavigate();
+  return (
+    <Container>
+      <Icon onClick={() => navigate('/')}>
+        <AiFillHome style={{width: '100%', height: '100%'}} />
+      </Icon>
+      <ContentsBox>
         <Form>
           <Title>작성자</Title>
           <Text placeholder="작성자의 이름을 입력해주세요. (5자 이내)" />
-					<Title>제목</Title>
+          <Title>제목</Title>
           <Text placeholder="제목을 입력해주세요. (50자 이내)" />
-					<Title>내용</Title>
+          <Title>내용</Title>
           <ContentText placeholder="내용을 입력해주세요. (200자 이내)" />
           <div>
             <Btn>+</Btn>
           </div>
         </Form>
       </ContentsBox>
-		</Container>
-	);
+    </Container>
+  );
 };
 
 export default Record;
@@ -93,4 +95,3 @@ const Btn = styled.button`
   color: #fff;
   border: none;
 `;
-
