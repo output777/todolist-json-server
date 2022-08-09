@@ -3,12 +3,17 @@ import styled from 'styled-components';
 import {AiFillHome} from 'react-icons/ai';
 import {useNavigate} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
-import {__getTodos} from '../../redux/modules/todosSlice';
+import {__getTodos, __postTodos, __deleteTodo} from '../../redux/modules/todosSlice';
 
 const Todo = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const {isLoading, error, todos} = useSelector((state) => state.todos);
+
+  const onDeleteTodoHandler = (id) => {
+    dispatch(__deleteTodo(id));
+    dispatch(__getTodos());
+  };
 
   useEffect(() => {
     dispatch(__getTodos());
@@ -39,7 +44,7 @@ const Todo = () => {
               <h2 style={{margin: '0.5rem 0'}}>{todo.title}</h2>
               <p style={{margin: '0.5rem 0'}}>writer: {todo.user}</p>
             </div>
-            <Stbutton>-</Stbutton>
+            <Stbutton onClick={() => onDeleteTodoHandler(todo.id)}>-</Stbutton>
           </TodoCard>
         ))}
       </TodoBox>

@@ -27,6 +27,17 @@ export const __postTodos = createAsyncThunk('postTodos', async (payload, thunkAP
   }
 });
 
+export const __deleteTodo = createAsyncThunk('deleteTodos', async (payload, thunkAPI) => {
+  try {
+    console.log('payload', payload);
+    const data = await axios.delete(`http://localhost:3001/todos/${payload}`);
+    return thunkAPI.fulfillWithValue(data.data);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const __getComments = createAsyncThunk('getComments', async (payload, thunkAPI) => {
   try {
     const data = await axios.get('http://localhost:3001/comments');
@@ -71,6 +82,17 @@ const todosSlice = createSlice({
       state.isLoading = false;
     },
     [__postTodos.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    },
+    // __deleteTodo thunk : todo db 삭제하기
+    [__deleteTodo.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__deleteTodo.fulfilled]: (state, action) => {
+      state.isLoading = false;
+    },
+    [__deleteTodo.rejected]: (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
     },
