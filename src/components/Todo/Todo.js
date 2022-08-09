@@ -13,7 +13,6 @@ const Todo = () => {
   useEffect(() => {
     dispatch(__getTodos());
   }, [dispatch]);
-  console.log(todos);
 
   if (isLoading) {
     <div>로딩중...</div>;

@@ -1,19 +1,39 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {useNavigate, useParams} from 'react-router-dom';
 import {AiFillHome} from 'react-icons/ai';
-import {__getTodos} from '../../redux/modules/todosSlice';
+import {__getTodos, __postComments, __getComments} from '../../redux/modules/todosSlice';
 import {useSelector, useDispatch} from 'react-redux';
 
 const Detail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const {isLoading, error, todos} = useSelector((state) => state.todos);
   const param = useParams();
+  const [comment, setComment] = useState({
+    detailTodo: param.id,
+    commentUser: '',
+    commentContent: '',
+  });
 
   useEffect(() => {
     dispatch(__getTodos());
+    dispatch(__getComments());
   }, [dispatch]);
+
+  const {isLoading, error, todos, comments} = useSelector((state) => state.todos);
+
+  const onSubmitCommentHandler = async () => {
+    await dispatch(__postComments(comment));
+    await dispatch(__getComments());
+    setComment({
+      detailTodo: param.id,
+      commentUser: '',
+      commentContent: '',
+    });
+  };
+
+  const detailTodo = todos.find((todo) => todo.id === parseInt(param.id));
+  const commentslist = comments.filter((comment) => comment.detailTodo === param.id);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -22,9 +42,6 @@ const Detail = () => {
   if (error) {
     return <div>{error}</div>;
   }
-  console.log(todos);
-  const detailTodo = todos.find((todo) => todo.id === parseInt(param.id));
-  console.log('detailTodo', detailTodo, Boolean(detailTodo));
 
   return (
     <Container>
@@ -39,6 +56,53 @@ const Detail = () => {
             <Btn>수정</Btn>
           </div>
         </Form>
+        <form
+          style={{width: '100%', height: '400px', overflowY: 'scroll', backgroundColor: '#eee'}}
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmitCommentHandler();
+          }}
+        >
+          <span>작성자</span>
+          <input
+            type="text"
+            value={comment.commentUser}
+            onChange={(e) => {
+              const {value} = e.target;
+              setComment({
+                ...comment,
+                commentUser: value,
+              });
+            }}
+          />
+          <span>댓글</span>
+          <input
+            type="text"
+            value={comment.commentContent}
+            onChange={(e) => {
+              const {value} = e.target;
+              setComment({
+                ...comment,
+                commentContent: value,
+              });
+            }}
+          />
+          <button>추가하기</button>
+          <div>
+            {commentslist &&
+              commentslist.map((comment) => (
+                <div style={{display: 'flex', justifyContent: 'space-between'}} key={comment.id}>
+                  <div>
+                    작성자: {comment.commentUser} 댓글: {comment.commentContent}
+                  </div>
+                  <div>
+                    <button>수정하기</button>
+                    <button>삭제하기</button>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </form>
       </ContentsBox>
     </Container>
   );

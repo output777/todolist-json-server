@@ -1,14 +1,12 @@
 import './App.css';
-import Domains from './components/Domains/Domain';
 import Layout from './components/Layout/Layout';
+import Router from './components/Router/Router';
 
 function App() {
   return (
-    <div>
-      <Layout>
-        <Domains />
-      </Layout>
-    </div>
+    <Layout>
+      <Router />
+    </Layout>
   );
 }
 

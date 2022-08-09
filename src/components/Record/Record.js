@@ -2,10 +2,12 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import {AiFillHome} from 'react-icons/ai';
 import {useNavigate} from 'react-router-dom';
-import axios from 'axios';
+import {useDispatch} from 'react-redux';
+import {__postTodos} from '../../redux/modules/todosSlice';
 
 const Record = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [todo, setTodo] = useState({
     user: '',
@@ -13,8 +15,8 @@ const Record = () => {
     content: '',
   });
 
-  const onSubmitHandler = async () => {
-    await axios.post('http://localhost:3001/todos', todo);
+  const onSubmitHandler = () => {
+    dispatch(__postTodos(todo));
     setTodo({
       user: '',
       title: '',
