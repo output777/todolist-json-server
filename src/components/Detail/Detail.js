@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {useNavigate, useParams} from 'react-router-dom';
 import {AiFillHome} from 'react-icons/ai';
-import {__getTodos, __postComments, __getComments} from '../../redux/modules/todosSlice';
+import {__getTodos, __postComments, __getComments, __setTodos} from '../../redux/modules/todosSlice';
 import {useSelector, useDispatch} from 'react-redux';
 
 const Detail = () => {
@@ -14,10 +14,11 @@ const Detail = () => {
     commentUser: '',
     commentContent: '',
   });
+  const [newContent, setNewContent] = useState("");
 
   useEffect(() => {
     dispatch(__getTodos());
-    dispatch(__getComments());
+    // dispatch(__getComments());
   }, [dispatch]);
 
   const {isLoading, error, todos, comments} = useSelector((state) => state.todos);
@@ -35,6 +36,16 @@ const Detail = () => {
   const detailTodo = todos.find((todo) => todo.id === parseInt(param.id));
   const commentslist = comments.filter((comment) => comment.detailTodo === param.id);
 
+  const onChangeHandler = (e) => {
+    setNewContent(e.target.value)
+  }
+
+  const sendEditTodo = () => {
+    // id랑, 새로 바뀐 content를 reducer로 보내준다(reducer 가기전에 미들웨어에 도착할 예정);
+    let data = { id: parseInt(param.id), content: newContent };
+    dispatch(__setTodos(data));
+  }
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -51,9 +62,10 @@ const Detail = () => {
       <ContentsBox>
         <Form>
           <Title>{detailTodo ? detailTodo.title : '제목'}</Title>
-          <Text>{detailTodo ? detailTodo.content : '내용'}</Text>
+          {/* <Text>{detailTodo ? detailTodo.content : '내용'}</Text> */}
+          <input type="text" value={newContent === "" ? detailTodo?.content : newContent} onChange={onChangeHandler}/>
           <div>
-            <Btn>수정</Btn>
+            <Btn onClick={sendEditTodo}>수정</Btn>
           </div>
         </Form>
         <form
@@ -149,7 +161,7 @@ const Text = styled.div`
   box-sizing: border-box;
   outline: none;
 `;
-const Btn = styled.button`
+const Btn = styled.div`
   position: absolute;
   bottom: 4rem;
   width: 700px;
