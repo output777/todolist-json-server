@@ -83,7 +83,7 @@ const Detail = () => {
           </div>
         </Form>
         <form
-          style={{width: '100%', height: '400px', overflowY: 'scroll', backgroundColor: '#eee'}}
+          style={{width: '100%', backgroundColor: '#eee'}}
           onSubmit={(e) => {
             e.preventDefault();
             onSubmitCommentHandler();
@@ -114,21 +114,21 @@ const Detail = () => {
             }}
           />
           <button>추가하기</button>
-          <div>
-            {commentslist &&
-              commentslist.map((comment) => (
-                <div style={{display: 'flex', justifyContent: 'space-between'}} key={comment.id}>
-                  <div>
-                    작성자: {comment.commentUser} 댓글: {comment.commentContent}
-                  </div>
-                  <div>
-                    <button>수정하기</button>
-                    <button>삭제하기</button>
-                  </div>
-                </div>
-              ))}
-          </div>
         </form>
+        <div style={{width: '100%', height: '400px', overflowY: 'scroll', backgroundColor: '#eee'}}>
+          {commentslist &&
+            commentslist.map((comment) => (
+              <div style={{display: 'flex', justifyContent: 'space-between'}} key={comment.id}>
+                <div>
+                  작성자: {comment.commentUser} 댓글: {comment.commentContent}
+                </div>
+                <div>
+                  <button>수정하기</button>
+                  <button>삭제하기</button>
+                </div>
+              </div>
+            ))}
+        </div>
       </ContentsBox>
     </Container>
   );
@@ -155,7 +155,7 @@ const ContentsBox = styled.div`
   height: 800px;
   background-color: #fff;
 `;
-const Form = styled.form`
+const Form = styled.div`
   padding: 5rem 2rem;
   height: 100%;
   box-sizing: border-box;
