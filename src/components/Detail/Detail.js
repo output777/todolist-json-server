@@ -2,19 +2,25 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {useNavigate, useParams} from 'react-router-dom';
 import {AiFillHome} from 'react-icons/ai';
-import {__getTodos, __postComments, __getComments, __setTodos} from '../../redux/modules/todosSlice';
+import {
+  __getTodos,
+  __postComments,
+  __getComments,
+  __setTodos,
+} from '../../redux/modules/todosSlice';
 import {useSelector, useDispatch} from 'react-redux';
 
 const Detail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const param = useParams();
+  const [edit, setEdit] = useState(false);
   const [comment, setComment] = useState({
     detailTodo: param.id,
     commentUser: '',
     commentContent: '',
   });
-  const [newContent, setNewContent] = useState("");
+  const [newContent, setNewContent] = useState('');
 
   useEffect(() => {
     dispatch(__getTodos());
@@ -37,14 +43,15 @@ const Detail = () => {
   const commentslist = comments.filter((comment) => comment.detailTodo === param.id);
 
   const onChangeHandler = (e) => {
-    setNewContent(e.target.value)
-  }
+    setNewContent(e.target.value);
+  };
 
   const sendEditTodo = () => {
     // id랑, 새로 바뀐 content를 reducer로 보내준다(reducer 가기전에 미들웨어에 도착할 예정);
-    let data = { id: parseInt(param.id), content: newContent };
+    let data = {id: parseInt(param.id), content: newContent};
     dispatch(__setTodos(data));
-  }
+    setEdit((prev) => !prev);
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -62,10 +69,17 @@ const Detail = () => {
       <ContentsBox>
         <Form>
           <Title>{detailTodo ? detailTodo.title : '제목'}</Title>
-          {/* <Text>{detailTodo ? detailTodo.content : '내용'}</Text> */}
-          <input type="text" value={newContent === "" ? detailTodo?.content : newContent} onChange={onChangeHandler}/>
+          {edit === false ? (
+            <Text>{detailTodo ? detailTodo.content : '내용'}</Text>
+          ) : (
+            <input
+              type="text"
+              value={newContent === '' ? detailTodo?.content : newContent}
+              onChange={onChangeHandler}
+            />
+          )}
           <div>
-            <Btn onClick={sendEditTodo}>수정</Btn>
+            <Btn onClick={sendEditTodo}>{edit ? '저장' : '수정'}</Btn>
           </div>
         </Form>
         <form
