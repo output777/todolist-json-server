@@ -1,27 +1,28 @@
-import React, {useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import {AiFillHome} from 'react-icons/ai';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import {__postTodos} from '../../redux/modules/todosSlice';
+import useInput from '../../hooks/useInput';
 
 const Record = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [todo, setTodo] = useState({
-    user: '',
-    title: '',
-    content: '',
-  });
+  const [user, onChangeUserHandler] = useInput('');
+  const [title, onChangeTitleHandler] = useInput('');
+  const [content, onChangeContentHandler] = useInput('');
 
   const onSubmitHandler = () => {
-    dispatch(__postTodos(todo));
-    setTodo({
-      user: '',
-      title: '',
-      content: '',
-    });
+    dispatch(
+      __postTodos({
+        user,
+        title,
+        content,
+      })
+    );
+
     navigate('/todo');
   };
 
@@ -40,38 +41,20 @@ const Record = () => {
           <Title>작성자</Title>
           <Text
             placeholder="작성자의 이름을 입력해주세요. (5자 이내)"
-            value={todo.user}
-            onChange={(e) => {
-              const {value} = e.target;
-              setTodo({
-                ...todo,
-                user: value,
-              });
-            }}
+            value={user}
+            onChange={onChangeUserHandler}
           />
           <Title>제목</Title>
           <Text
             placeholder="제목을 입력해주세요. (50자 이내)"
-            value={todo.title}
-            onChange={(e) => {
-              const {value} = e.target;
-              setTodo({
-                ...todo,
-                title: value,
-              });
-            }}
+            value={title}
+            onChange={onChangeTitleHandler}
           />
           <Title>내용</Title>
           <ContentText
             placeholder="내용을 입력해주세요. (200자 이내)"
-            value={todo.content}
-            onChange={(e) => {
-              const {value} = e.target;
-              setTodo({
-                ...todo,
-                content: value,
-              });
-            }}
+            value={content}
+            onChange={onChangeContentHandler}
           />
           <div>
             <Btn>+</Btn>
