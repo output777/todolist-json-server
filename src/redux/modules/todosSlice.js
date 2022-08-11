@@ -84,6 +84,7 @@ const todosSlice = createSlice({
     },
     [__postTodos.fulfilled]: (state, action) => {
       state.isLoading = false;
+      state.todos.push(action.payload);
     },
     [__postTodos.rejected]: (state, action) => {
       state.isLoading = false;
