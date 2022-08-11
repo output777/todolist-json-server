@@ -13,6 +13,7 @@ const Todo = () => {
   const onDeleteTodoHandler = (id) => {
     dispatch(__deleteTodo(id));
   };
+
   useEffect(() => {
     dispatch(__getTodos());
   }, [dispatch]);
