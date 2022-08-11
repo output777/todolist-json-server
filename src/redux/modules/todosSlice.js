@@ -29,6 +29,18 @@ export const __postTodos = createAsyncThunk('postTodos', async (payload, thunkAP
   }
 });
 
+export const __deleteTodo = createAsyncThunk('deleteTodo', async (todoId, thunkAPI) => {
+  console.log('todoId', todoId);
+  try {
+    await axios.delete(`http://localhost:3001/todos/${todoId}`);
+    await axios.delete(`http://localhost:3001/comments/${todoId}`);
+    return thunkAPI.fulfillWithValue(todoId);
+  } catch (error) {
+    console.log(error);
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
 export const __setTodos = createAsyncThunk('setTodos', async (payload, thunkAPI) => {
   try {
     //성공하면 여기 조건이 실행됨
@@ -99,6 +111,19 @@ const todosSlice = createSlice({
       state.todos = state.todos.map((todo) =>
         todo.id === action.payload.id ? {...todo, content: action.payload.content} : todo
       );
+    },
+    // __deleteTodo thunk : todo db 삭제하기
+    [__deleteTodo.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [__deleteTodo.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.todos = state.todos.filter((todo) => todo.id !== action.payload);
+      state.comments = state.comments.filter((comment) => comment.id !== action.payload);
+    },
+    [__deleteTodo.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
     },
     [__setTodos.rejected]: (state, action) => {
       state.isLoading = false;
