@@ -1,7 +1,7 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const url = process.env.REACT_APP_API_URL;
+const url = 'https://arcane-castle-52016.herokuapp.com';
 const initialState = {
   todos: [],
   isLoading: false,
@@ -11,7 +11,7 @@ const initialState = {
 
 export const __getTodos = createAsyncThunk('getTodos', async (payload, thunkAPI) => {
   try {
-    const data = await axios.get(`${url}todos`);
+    const data = await axios.get(`${url}/todos`);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
