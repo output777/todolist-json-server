@@ -5,12 +5,13 @@ const initialState = {
   todos: [],
   isLoading: false,
   error: null,
+  url: `https://...${process.env.REACT_APP_API_URL}`,
   comments: [],
 };
 
 export const __getTodos = createAsyncThunk('getTodos', async (payload, thunkAPI) => {
   try {
-    const data = await axios.get('http://localhost:3001/todos');
+    const data = await axios.get(`https://arcane-castle-52016.herokuapp.com/todos`);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -19,7 +20,7 @@ export const __getTodos = createAsyncThunk('getTodos', async (payload, thunkAPI)
 
 export const __postTodos = createAsyncThunk('postTodos', async (payload, thunkAPI) => {
   try {
-    const data = await axios.post('http://localhost:3001/todos', payload);
+    const data = await axios.post(`https://arcane-castle-52016.herokuapp.com/todos`, payload);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     console.log(error);
@@ -31,20 +32,19 @@ export const __setTodos = createAsyncThunk('setTodos', async (payload, thunkAPI)
   try {
     //성공하면 여기 조건이 실행됨
     const data = await axios.patch(`http://localhost:3001/todos/${payload.id}`, {
-      content: payload.content
+      content: payload.content,
     });
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     //실패하면 여기 조건이 실행됨
-    console.log(error,"error");
+    console.log(error, 'error');
   }
-})
+});
 
 export const __getComments = createAsyncThunk('getComments', async (payload, thunkAPI) => {
   try {
     const data = await axios.get('http://localhost:3001/comments');
     return thunkAPI.fulfillWithValue(data.data);
-    
   } catch (error) {
     console.log(error);
     return thunkAPI.rejectWithValue(error);
@@ -93,12 +93,14 @@ const todosSlice = createSlice({
       state.isLoading = true;
     },
     [__setTodos.fulfilled]: (state, action) => {
-        state.isLoading = false;
-        state.todos = state.todos.map((todo) => todo.id === action.payload.id ? {...todo, content: action.payload.content} : todo)
+      state.isLoading = false;
+      state.todos = state.todos.map((todo) =>
+        todo.id === action.payload.id ? {...todo, content: action.payload.content} : todo
+      );
     },
     [__setTodos.rejected]: (state, action) => {
       state.isLoading = false;
-      state.error = action.payload
+      state.error = action.payload;
     },
     // __getComments thunk : 댓글 db 받아오기
     [__getComments.pending]: (state) => {
