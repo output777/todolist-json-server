@@ -43,7 +43,7 @@ export const __setTodos = createAsyncThunk('setTodos', async (payload, thunkAPI)
 
 export const __getComments = createAsyncThunk('getComments', async (payload, thunkAPI) => {
   try {
-    const data = await axios.get('${url}/comments');
+    const data = await axios.get(`${url}/comments`);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     console.log(error);

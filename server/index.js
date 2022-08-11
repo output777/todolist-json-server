@@ -1,5 +1,6 @@
 const jsonServer = require('json-server');
 const path = require('path');
+require('dotenv').config();
 
 const server = jsonServer.create();
 const router = jsonServer.router(path.resolve(__dirname + '/db.json'));

@@ -2,10 +2,6 @@
   "name": "todolist-json-server",
   "version": "0.1.0",
   "private": true,
-  "engine": {
-    "node": "14.18.1",
-    "npm": "6.14.15"
-  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.3",
     "@testing-library/jest-dom": "^5.16.5",
@@ -14,6 +10,7 @@
     "axios": "^0.27.2",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.1",
+    "env": "0.0.2",
     "json-server": "^0.17.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -28,7 +25,7 @@
   "scripts": {
     "start": "node server",
     "start:dev": "cross-env NODE_PATH=src react-scripts start",
-    "build": "cross-env NODE_PATH=src node scripts/build",
+    "build": "cross-env NODE_PATH=src react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "heroku-postbuild": "cross-env NODE_PATH=src npm run build"
