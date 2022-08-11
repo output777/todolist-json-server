@@ -175,7 +175,7 @@ const Text = styled.div`
   box-sizing: border-box;
   outline: none;
 `;
-const Btn = styled.div`
+const Btn = styled.button`
   position: absolute;
   bottom: 4rem;
   width: 700px;
