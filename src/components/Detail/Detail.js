@@ -18,7 +18,9 @@ const Detail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   let {id} = useParams();
+
   const [edit, setEdit] = useState(false);
+
   const [editComment, setEditComment] = useState(false);
   const [editContent, onChangeEditContent, setEditContent] = useInput('');
   const [commentUser, onChangeCommentUser, setCommentUser] = useInput('');

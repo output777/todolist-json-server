@@ -38,32 +38,11 @@ export const __deleteTodo = createAsyncThunk('deleteTodo', async (todoId, thunkA
   }
 });
 
-export const __deleteComment = createAsyncThunk('deleteComment', async (commentId, thunkAPI) => {
-  console.log('commentId', commentId);
-  try {
-    await axios.delete(`http://localhost:3001/comments/${commentId}`);
-    return thunkAPI.fulfillWithValue(commentId);
-  } catch (error) {
-    console.log(error);
-    return thunkAPI.rejectWithValue(error);
-  }
-});
-
-// [__deleteTodo.fulfilled]: (state, action) => {
-//   state.isLoading = false;
-//   state.todos = state.todos.filter((todo) => todo.id !== action.payload);
-// },
-
-// [__deleteComment.fulfilled]: (state, action) => {
-//   state.isLoading = false;
-//   console.log(action.payload);
-//   state.comments = state.comments.filter((comment) => comment.id !== action.payload);
-// },
-
 export const __editTodo = createAsyncThunk('editTodo', async (payload, thunkAPI) => {
   console.log('payload', payload);
   try {
     await axios.patch(`http://localhost:3001/todos/${payload.todoId}`, payload.content);
+
     return thunkAPI.fulfillWithValue(payload);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -86,6 +65,17 @@ export const __postComments = createAsyncThunk('postComment', async (payload, th
     const data = await axios.post(`http://localhost:3001/comments/`, payload);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+
+export const __deleteComment = createAsyncThunk('deleteComment', async (commentId, thunkAPI) => {
+  console.log('commentId', commentId);
+  try {
+    await axios.delete(`http://localhost:3001/comments/${commentId}`);
+    return thunkAPI.fulfillWithValue(commentId);
+  } catch (error) {
+    console.log(error);
     return thunkAPI.rejectWithValue(error);
   }
 });
