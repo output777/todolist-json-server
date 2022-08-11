@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import store from './redux/config/configStore';
 import {Provider} from 'react-redux/es/exports';
 import App from './App';
+require('dotenv').config();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
