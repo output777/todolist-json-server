@@ -32,8 +32,8 @@ export const __postTodos = createAsyncThunk('postTodos', async (payload, thunkAP
 export const __deleteTodo = createAsyncThunk('deleteTodo', async (todoId, thunkAPI) => {
   console.log('todoId', todoId);
   try {
-    await axios.delete(`http://localhost:3001/todos/${todoId}`);
-    await axios.delete(`http://localhost:3001/comments/${todoId}`);
+    await axios.delete(`${url}/todos/${todoId}`);
+    await axios.delete(`${url}/comments/${todoId}`);
     return thunkAPI.fulfillWithValue(todoId);
   } catch (error) {
     console.log(error);

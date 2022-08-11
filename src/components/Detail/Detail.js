@@ -72,11 +72,11 @@ const Detail = () => {
           {edit === false ? (
             <Text>{detailTodo ? detailTodo.content : '내용'}</Text>
           ) : (
-            <input
+            <Textarea
               type="text"
               value={newContent === '' ? detailTodo?.content : newContent}
               onChange={onChangeHandler}
-            />
+            ></Textarea>
           )}
           <div>
             <Btn onClick={sendEditTodo}>{edit ? '저장' : '수정'}</Btn>
@@ -183,4 +183,15 @@ const Btn = styled.div`
   background-color: #f9af71;
   color: #f0efe9;
   border: none;
+`;
+
+const Textarea = styled.textarea`
+  font-size: 1.2rem;
+  width: 700px;
+  height: 300px;
+  border: 2px solid #f9af71;
+  padding: 1rem;
+  box-sizing: border-box;
+  outline: none;
+  resize: none;
 `;
