@@ -11,7 +11,7 @@ const initialState = {
 
 export const __getTodos = createAsyncThunk('getTodos', async (payload, thunkAPI) => {
   try {
-    const data = await axios.get(`${url}/todos`);
+    const data = await axios.get(`https://arcane-castle-52016.herokuapp.com/todos`);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
@@ -20,7 +20,7 @@ export const __getTodos = createAsyncThunk('getTodos', async (payload, thunkAPI)
 
 export const __postTodos = createAsyncThunk('postTodos', async (payload, thunkAPI) => {
   try {
-    const data = await axios.post(`${url}/todos`, payload);
+    const data = await axios.post(`https://arcane-castle-52016.herokuapp.com/todos`, payload);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     console.log(error);
@@ -31,9 +31,12 @@ export const __postTodos = createAsyncThunk('postTodos', async (payload, thunkAP
 export const __setTodos = createAsyncThunk('setTodos', async (payload, thunkAPI) => {
   try {
     //성공하면 여기 조건이 실행됨
-    const data = await axios.patch(`${url}/todos/${payload.id}`, {
-      content: payload.content,
-    });
+    const data = await axios.patch(
+      `https://arcane-castle-52016.herokuapp.com/todos/${payload.id}`,
+      {
+        content: payload.content,
+      }
+    );
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     //실패하면 여기 조건이 실행됨
@@ -43,7 +46,7 @@ export const __setTodos = createAsyncThunk('setTodos', async (payload, thunkAPI)
 
 export const __getComments = createAsyncThunk('getComments', async (payload, thunkAPI) => {
   try {
-    const data = await axios.get(`${url}/comments`);
+    const data = await axios.get(`https://arcane-castle-52016.herokuapp.com/comments`);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     console.log(error);
@@ -53,7 +56,7 @@ export const __getComments = createAsyncThunk('getComments', async (payload, thu
 
 export const __postComments = createAsyncThunk('postComments', async (payload, thunkAPI) => {
   try {
-    const data = await axios.post(`${url}/comments/`, payload);
+    const data = await axios.post(`https://arcane-castle-52016.herokuapp.com/comments/`, payload);
     return thunkAPI.fulfillWithValue(data.data);
   } catch (error) {
     return thunkAPI.rejectWithValue(error);
